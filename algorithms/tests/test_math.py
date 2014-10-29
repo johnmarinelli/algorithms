@@ -7,6 +7,13 @@ from ..math.sieve_atkin import atkin
 from ..math.std_normal_pdf import pdf
 from ..math.approx_cdf import cdf
 
+from ..math.prime_factors import prime_factors
+
+class TestPrimeFactors(unittest.TestCase):
+    def test_prime_factors(self):
+        pf = prime_factors(100)
+        self.assertEqual(pf, [2, 5])
+
 class TestExtendedGCD(unittest.TestCase):
 
     def test_extended_gcd(self):
