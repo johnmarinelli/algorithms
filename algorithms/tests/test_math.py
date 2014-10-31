@@ -6,13 +6,9 @@ from ..math.sieve_eratosthenes import eratosthenes
 from ..math.sieve_atkin import atkin
 from ..math.std_normal_pdf import pdf
 from ..math.approx_cdf import cdf
-
+from ..math.is_prime import is_prime
 from ..math.prime_factors import prime_factors
-
-class TestPrimeFactors(unittest.TestCase):
-    def test_prime_factors(self):
-        pf = prime_factors(100)
-        self.assertEqual(pf, [2, 5])
+from ..math.totient import totient
 
 class TestExtendedGCD(unittest.TestCase):
 
@@ -111,3 +107,61 @@ class TestApproxCdf(unittest.TestCase):
         # Calculate cumulative distribution function for x=(-1)
         a = cdf(-1)
         nose.tools.assert_almost_equal(a, 0.15865525393145702)
+
+class TestIsPrime(unittest.TestCase):
+    def test_is_prime(self):
+        ip = is_prime(1)
+        self.assertEqual(ip, False)
+
+        ip = is_prime(2)
+        self.assertEqual(ip, True)
+
+        ip = is_prime(3)
+        self.assertEqual(ip, True)
+
+        ip = is_prime(1987)
+        self.assertEqual(ip, True)
+
+        ip = is_prime(1001)
+        self.assertEqual(ip, False)
+
+        ip = is_prime(104729)
+        self.assertEqual(ip, True)
+
+class TestPrimeFactors(unittest.TestCase):
+    def test_prime_factors(self):
+        pf = prime_factors(100)
+        self.assertEqual(pf, [2, 5])
+
+        pf = prime_factors(864814)
+        self.assertEqual(pf, [2, 383, 1129])
+
+        pf = prime_factors(7)
+        self.assertEqual(pf, [7])
+
+        pf = prime_factors(666666)
+        self.assertEqual(pf, [2, 3, 7, 11, 13, 37])
+
+        pf = prime_factors(-7)
+        self.assertEqual(pf, [7])
+
+        pf = prime_factors(-864814)
+        self.assertEqual(pf, [2, 383, 1129])
+
+class TestTotient(unittest.TestCase):
+    def test_totient(self):
+        t = totient(864814)
+        self.assertEqual(t, 430896)
+
+        t = totient(4)
+        self.assertEqual(t, 2)
+
+        t = totient(3)
+        self.assertEqual(t, 2)
+
+        t = totient(1)
+        self.assertEqual(t, 1)
+
+        t = totient(-864814)
+        self.assertEqual(t, 430896)
+
