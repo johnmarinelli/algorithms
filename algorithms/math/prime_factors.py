@@ -1,26 +1,30 @@
 from math import sqrt
+from is_prime import is_prime
 
-#simple primality test from wikipedia for n > 5
-def is_prime(n):
-  #if n is less than or equal to 3, then return whether or not n is >= 2
-  if n <= 3:
-    return n >= 2
+"""
+Naive implementation of prime decomposition
+Given a number 'n', returns an ordered array of prime factors of n.
+Doesn't give the exponential powers of prime factors.
+If n is negative, it will be turned positive.
+If div is less than 1, it becomes 1.  Once div is at 3, we increment by 2's, since all primes are odd.
 
-  #check if n is divisible by 2 or 3
-  if n % 2 == 0 or n % 3 == 0:
-    return False
+Algorithm:
+Check if div > n.  If so, return array and we're done.
+If n is not a multiple of div, increment div and call function again
+If n is a multiple of div and div is prime, add div to list.  Divide n by div, increment div, and call function again
 
-  #finally, in the range of 5 to sqrt(n)+1 incrementing by 6,
-  #check if n is divisible by those primes or the odd numbers between those primes
-  for i in range(5, int(n ** 0.5) + 1, 6):
-    if n % i == 0 or n % (i+2) == 0:
-      return False
+Note: Since the default recursion depth is 1000, the largest prime number this function can process is 1987.  You'll need to set recursion depth to a higher number if you want to use this function with a PRIME number larger than 1987.  Composite numbers are restricted by recursion depth as well, but at a much higher upper bound.
+"""
 
-  return True
+def prime_factors(n, array=None, div=1):
+  #if first pass, set array to a new instance
+  if array is None:
+    array = []
 
+  #if n is negative, make it positive
+  if n < 0:
+    n = n * -1
 
-
-def prime_factors(n, array=[], div=1):
   #make div a positive int
   if div < 1: 
     div = 1
@@ -34,7 +38,6 @@ def prime_factors(n, array=[], div=1):
   if div > n:
     # if array length is still one, then it's a prime number
     if len(array) == 0:
-      array.append(1)
       array.append(n)
 
     return array
